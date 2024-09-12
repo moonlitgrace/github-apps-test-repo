@@ -38,7 +38,7 @@ jobs:
             echo "::set-output name=branch::$BRANCH_NAME"
           else
             echo "No lint errors, skipping commit"
-            echo "::set-out name=branch::"
+            echo "::set-output name=branch::"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
