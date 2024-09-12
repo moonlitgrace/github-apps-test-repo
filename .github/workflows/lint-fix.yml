@@ -39,7 +39,7 @@ jobs:
           if git rev-parse --verify "$BRANCH_NAME" >/dev/null 2>&1; then
             echo "Branch $BRANCH_NAME exists, checking out..."
             git checkout "$BRANCH_NAME"
-            git rebase origin/"$BRANCH_NAME"
+            git pull origin "$BRANCH_NAME" --rebase
           else
             echo "Branch $BRANCH_NAME does not exist, creating and checking out..."
             git checkout -b "$BRANCH_NAME"
