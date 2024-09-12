@@ -36,7 +36,7 @@ jobs:
 
           git fetch origin
 
-          if git rev-parse --verify "$BRANCH_NAME" >/dev/null 2>&1; then
+          if [ -n "$(git rev-parse --verify "$BRANCH_NAME" >/dev/null 2>&1)" ]; then
             echo "Branch $BRANCH_NAME exists, checking out..."
             git checkout "$BRANCH_NAME"
             git pull origin "$BRANCH_NAME" --rebase
