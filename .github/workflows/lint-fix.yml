@@ -26,18 +26,12 @@ jobs:
         run: npm run lint:fix
         continue-on-error: true
 
-      - name: Show git status
-        run: git status --short
-
-      - name: Show git diff
-        run: git diff
+      - name: Setup github user
+        uses: fregante/setup-git-user@v2
 
       - name: Commit and Push if lint errors were fixed
         id: commit_and_push_changes
         run: |
-          git config --global user.name "moonlint-bot"
-          git config --global user.email "moonlint-bot@users.noreply.github.com"
-
           BRANCH_NAME="moonlint-fixes-${{ github.head_ref || github.ref_name }}"
 
           if [ -n "$(git status --porcelain)" ]; then

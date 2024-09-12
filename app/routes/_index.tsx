@@ -1,4 +1,3 @@
-//he
 import type { MetaFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
@@ -18,4 +17,4 @@ export default function Index(props: any) {
 }
 
 // Define an unused variable
-let someUnusedVariable;
+var someUnusedVariable;
