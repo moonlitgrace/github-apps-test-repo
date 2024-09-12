@@ -1,0 +1,57 @@
+name: "Lint fix"
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Eslint with --fix
+        run: npm run lint -- --fix
+        continue-on-error: true
+
+      - name: Commit and Push if lint errors were fixed
+        id: commit_and_push_changes
+        run: |
+          git config --global user.name "moonlint-bot"
+          git config --global user.email "moonlint-bot@users.noreply.gmail.com"
+
+          BRANCH_NAME = "moonlint-fixes-${{ github.sha }}"
+
+          if [-n "${git status --porcelain}"]; then
+            git checkout -b "$BRANCH_NAME"
+            git add .
+            git commit -m "chore: fix lint errors"
+            git push -u origin "$BRANCH_NAME"
+            echo "::set-output name=branch::$BRANCH_NAME"
+          else
+            echo "No lint errors, skipping commit"
+            echo "::set-out name=branch::"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create a PR if lint errors were fixed
+        if: success() && steps.commit_and_push_changes.outputs.branch !== ''
+        run: |
+          BRANCH_NAME = "${{ steps.commit_and_push_changes.outputs.branch }}"
+
+          gh pr create \
+            --title "chore: fix lint errors" \
+            --body "This PR fixes lint errors on branch: $BRANCH_NAME" \
+            --head "$BRANCH_NAME" \
+            --base "${{ github.ref_name }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
