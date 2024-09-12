@@ -34,8 +34,15 @@ jobs:
         run: |
           BRANCH_NAME="moonlint-fixes-${{ github.head_ref || github.ref_name }}"
 
-          if [ -n "$(git status --porcelain)" ]; then
+          if git rev-parse --verify "$BRANCH_NAME" >/dev/null 2>&1; then
+            echo "Branch $BRANCH_NAME exists, checking out..."
+            git checkout "$BRANCH_NAME"
+          else
+            echo "Branch $BRANCH_NAME does not exist, creating and checking out..."
             git checkout -b "$BRANCH_NAME"
+          fi
+
+          if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m "chore: fix lint errors"
             git push -u origin "$BRANCH_NAME"
