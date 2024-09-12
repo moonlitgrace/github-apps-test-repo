@@ -28,7 +28,7 @@ jobs:
           git config --global user.name "moonlint-bot"
           git config --global user.email "moonlint-bot@users.noreply.gmail.com"
 
-          BRANCH_NAME = "moonlint-fixes-${{ github.sha }}"
+          BRANCH_NAME="moonlint-fixes-${{ github.sha }}"
 
           if [-n "${git status --porcelain}"]; then
             git checkout -b "$BRANCH_NAME"
@@ -46,7 +46,7 @@ jobs:
       - name: Create a PR if lint errors were fixed
         if: success() && steps.commit_and_push_changes.outputs.branch != ''
         run: |
-          BRANCH_NAME = "${{ steps.commit_and_push_changes.outputs.branch }}"
+          BRANCH_NAME="${{ steps.commit_and_push_changes.outputs.branch }}"
 
           gh pr create \
             --title "chore: fix lint errors" \
