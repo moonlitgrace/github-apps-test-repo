@@ -17,4 +17,4 @@ export default function Index(props: any) {
 }
 
 // Define an unused variable
-const someUnusedVariable = "This should trigger a lint error.";
+var someUnusedVariable;
