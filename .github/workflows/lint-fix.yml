@@ -38,7 +38,7 @@ jobs:
           git config --global user.name "moonlint-bot"
           git config --global user.email "moonlint-bot@users.noreply.github.com"
 
-          BRANCH_NAME="moonlint-fixes-${{ github.head_ref }}"
+          BRANCH_NAME="moonlint-fixes-${{ github.head_ref || github.ref_name }}"
 
           if [ -n "$(git status --porcelain)" ]; then
             git checkout -b "$BRANCH_NAME"
