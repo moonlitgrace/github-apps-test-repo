@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Run ESLint with --fix
-        run: npm run lint -- --fix
+        run: npm run lint:fix
         continue-on-error: true
 
       - name: Show git status
@@ -53,15 +53,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create a PR if lint errors were fixed
-        if: ${{ env.branch != '' }}
-        run: |
-          BRANCH_NAME="${{ env.branch }}"
+      # - name: Create a PR if lint errors were fixed
+      #   if: ${{ env.branch != '' }}
+      #   run: |
+      #     BRANCH_NAME="${{ env.branch }}"
 
-          gh pr create \
-            --title "chore: fix lint errors" \
-            --body "This PR fixes lint errors on branch: $BRANCH_NAME" \
-            --head "$BRANCH_NAME" \
-            --base "${{ github.ref_name }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     gh pr create \
+      #       --title "chore: fix lint errors" \
+      #       --body "This PR fixes lint errors on branch: $BRANCH_NAME" \
+      #       --head "$BRANCH_NAME" \
+      #       --base "${{ github.ref_name }}"
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
