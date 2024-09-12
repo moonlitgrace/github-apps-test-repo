@@ -22,6 +22,12 @@ jobs:
         run: npm run lint -- --fix
         continue-on-error: true
 
+      - name: Show git status
+        run: git status --short
+
+      - name: Show git diff
+        run: git diff
+
       - name: Commit and Push if lint errors were fixed
         id: commit_and_push_changes
         run: |
