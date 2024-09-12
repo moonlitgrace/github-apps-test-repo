@@ -44,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create a PR if lint errors were fixed
-        if: success() && steps.commit_and_push_changes.outputs.branch !== ''
+        if: success() && steps.commit_and_push_changes.outputs.branch != ''
         run: |
           BRANCH_NAME = "${{ steps.commit_and_push_changes.outputs.branch }}"
 
