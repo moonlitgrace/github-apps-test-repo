@@ -17,4 +17,4 @@ export default function Index(props: any) {
 }
 
 // Define an unused variable
-var someUnusedVariable;
+let someUnusedVariable;
