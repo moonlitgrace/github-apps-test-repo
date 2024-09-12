@@ -30,7 +30,7 @@ jobs:
 
           BRANCH_NAME="moonlint-fixes-${{ github.sha }}"
 
-          if [-n "$(git status --porcelain)"]; then
+          if [ -n "$(git status --porcelain)" ]; then
             git checkout -b "$BRANCH_NAME"
             git add .
             git commit -m "chore: fix lint errors"
