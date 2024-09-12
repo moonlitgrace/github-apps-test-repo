@@ -36,10 +36,12 @@ jobs:
 
           git fetch origin
 
-          if [ -n "$(git rev-parse --verify "$BRANCH_NAME" >/dev/null 2>&1)" ]; then
+          if git show-ref --verify --quiet "refs/heads/$BRANCH_NAME"; then
             echo "Branch $BRANCH_NAME exists, checking out..."
             git checkout "$BRANCH_NAME"
-            git pull origin "$BRANCH_NAME" --rebase
+
+            git branch --set-upstream-to=origin/"$BRANCH_NAME"
+            git pull --rebase
           else
             echo "Branch $BRANCH_NAME does not exist, creating and checking out..."
             git checkout -b "$BRANCH_NAME"
